@@ -9,9 +9,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Geeclass',
+      theme: ThemeData(
+        fontFamily: "Inter",
+      ),
+      home: const Scaffold(
         body: Center(
           child: Text(
             "Let's build something 🔥🔥",
