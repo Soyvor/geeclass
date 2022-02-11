@@ -41,7 +41,7 @@ final List<Student> students = [
   ),
 ];
 
-final List<SubjectStream> digitalArtsStream = [
+final List<SubjectStream> streams = [
   SubjectStream(
     id: 1,
     title: "2D Sprite",
@@ -70,9 +70,72 @@ final List<SubjectStream> digitalArtsStream = [
     type: SubjectStreamType.material,
     subjectId: 1,
   ),
+  SubjectStream(
+    id: 5,
+    title: "TCP/IP Analysis",
+    postedAt: DateTime.now().subtract(const Duration(days: 4)),
+    type: SubjectStreamType.quiz,
+    subjectId: 2,
+  ),
+  SubjectStream(
+    id: 6,
+    title: "Wireshark",
+    postedAt: DateTime.now().subtract(const Duration(days: 6)),
+    type: SubjectStreamType.material,
+    subjectId: 2,
+  ),
+  SubjectStream(
+    id: 7,
+    title: "DDOS",
+    postedAt: DateTime.now().subtract(const Duration(days: 2)),
+    type: SubjectStreamType.material,
+    subjectId: 2,
+  ),
+  SubjectStream(
+    id: 8,
+    title: "Fintech",
+    postedAt: DateTime.now().subtract(const Duration(days: 3)),
+    type: SubjectStreamType.material,
+    subjectId: 3,
+  ),
+  SubjectStream(
+    id: 9,
+    title: "Project Budgetting",
+    postedAt: DateTime.now().subtract(const Duration(days: 4)),
+    type: SubjectStreamType.quiz,
+    subjectId: 3,
+  ),
+  SubjectStream(
+    id: 10,
+    title: "Project Budgetting",
+    postedAt: DateTime.now().subtract(const Duration(days: 6)),
+    type: SubjectStreamType.material,
+    subjectId: 3,
+  ),
+  SubjectStream(
+    id: 11,
+    title: "Intent",
+    postedAt: DateTime.now().subtract(const Duration(days: 4)),
+    type: SubjectStreamType.material,
+    subjectId: 4,
+  ),
+  SubjectStream(
+    id: 12,
+    title: "Data Class",
+    postedAt: DateTime.now().subtract(const Duration(days: 2)),
+    type: SubjectStreamType.quiz,
+    subjectId: 4,
+  ),
+  SubjectStream(
+    id: 13,
+    title: "Parcelable",
+    postedAt: DateTime.now().subtract(const Duration(days: 5)),
+    type: SubjectStreamType.quiz,
+    subjectId: 4,
+  ),
 ];
 
-final List<SubjectAssignment> digitalArtsAssignment = [
+final List<SubjectAssignment> assignments = [
   SubjectAssignment(
     id: 1,
     title: "2D Sprite",
@@ -92,35 +155,8 @@ final List<SubjectAssignment> digitalArtsAssignment = [
     subjectId: 1,
     type: SubjectAssignmentType.missing,
   ),
-];
-
-final List<SubjectStream> networkSecurityStream = [
-  SubjectStream(
-    id: 1,
-    title: "TCP/IP Analysis",
-    postedAt: DateTime.now().subtract(const Duration(days: 4)),
-    type: SubjectStreamType.quiz,
-    subjectId: 2,
-  ),
-  SubjectStream(
-    id: 2,
-    title: "Wireshark",
-    postedAt: DateTime.now().subtract(const Duration(days: 6)),
-    type: SubjectStreamType.material,
-    subjectId: 2,
-  ),
-  SubjectStream(
-    id: 3,
-    title: "DDOS",
-    postedAt: DateTime.now().subtract(const Duration(days: 2)),
-    type: SubjectStreamType.material,
-    subjectId: 2,
-  ),
-];
-
-final List<SubjectAssignment> networkSecurityAssignment = [
   SubjectAssignment(
-    id: 1,
+    id: 3,
     title: "DDOS",
     description: "Analyze DDOS attack on attached study case",
     postedAt: DateTime.now().subtract(const Duration(days: 1)),
@@ -128,35 +164,8 @@ final List<SubjectAssignment> networkSecurityAssignment = [
     subjectId: 2,
     type: SubjectAssignmentType.missing,
   ),
-];
-
-final List<SubjectStream> financeStream = [
-  SubjectStream(
-    id: 1,
-    title: "Fintech",
-    postedAt: DateTime.now().subtract(const Duration(days: 3)),
-    type: SubjectStreamType.material,
-    subjectId: 3,
-  ),
-  SubjectStream(
-    id: 2,
-    title: "Project Budgetting",
-    postedAt: DateTime.now().subtract(const Duration(days: 4)),
-    type: SubjectStreamType.quiz,
-    subjectId: 3,
-  ),
-  SubjectStream(
-    id: 2,
-    title: "Project Budgetting",
-    postedAt: DateTime.now().subtract(const Duration(days: 6)),
-    type: SubjectStreamType.material,
-    subjectId: 3,
-  ),
-];
-
-final List<SubjectAssignment> financeAssignment = [
   SubjectAssignment(
-    id: 1,
+    id: 4,
     title: "Project Budgetting",
     description: "Analyze attached Project Budgetting as a study case",
     postedAt: DateTime.now().subtract(const Duration(days: 3)),
@@ -165,7 +174,7 @@ final List<SubjectAssignment> financeAssignment = [
     type: SubjectAssignmentType.turnedIn,
   ),
   SubjectAssignment(
-    id: 2,
+    id: 5,
     title: "Fintech",
     description: "Make a report of trending Fintech product in your country",
     postedAt: DateTime.now().subtract(const Duration(days: 2)),
@@ -173,35 +182,8 @@ final List<SubjectAssignment> financeAssignment = [
     subjectId: 3,
     type: SubjectAssignmentType.missing,
   ),
-];
-
-final List<SubjectStream> mobileDevStream = [
-  SubjectStream(
-    id: 1,
-    title: "Intent",
-    postedAt: DateTime.now().subtract(const Duration(days: 4)),
-    type: SubjectStreamType.material,
-    subjectId: 4,
-  ),
-  SubjectStream(
-    id: 2,
-    title: "Data Class",
-    postedAt: DateTime.now().subtract(const Duration(days: 2)),
-    type: SubjectStreamType.quiz,
-    subjectId: 4,
-  ),
-  SubjectStream(
-    id: 3,
-    title: "Parcelable",
-    postedAt: DateTime.now().subtract(const Duration(days: 5)),
-    type: SubjectStreamType.quiz,
-    subjectId: 4,
-  ),
-];
-
-final List<SubjectAssignment> mobileDevAssignment = [
   SubjectAssignment(
-    id: 1,
+    id: 6,
     title: "Parcelable",
     description:
         "Implement Parcelable as data that being passed to another Activty",
@@ -211,7 +193,7 @@ final List<SubjectAssignment> mobileDevAssignment = [
     type: SubjectAssignmentType.turnedIn,
   ),
   SubjectAssignment(
-    id: 2,
+    id: 7,
     title: "Data Class",
     description: "Implement data class in the current project",
     postedAt: DateTime.now().subtract(const Duration(days: 1)),
