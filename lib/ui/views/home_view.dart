@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geeclass/data/home_data.dart';
 import 'package:geeclass/ui/theme/app_color.dart';
+import 'package:geeclass/ui/views/subject_view.dart';
 import 'package:geeclass/ui/widgets/app_icon_buttton.dart';
 import 'package:geeclass/ui/widgets/assignment_week.dart';
 import 'package:geeclass/ui/widgets/subject_item.dart';
@@ -348,7 +349,17 @@ class HomeView extends StatelessWidget {
                     final subject = subjects[index];
 
                     // Subject Item
-                    return SubjectItem(subject: subject);
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to subject view
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => SubjectView(subject: subject),
+                          ),
+                        );
+                      },
+                      child: SubjectItem(subject: subject),
+                    );
                   },
                 ),
               ),
