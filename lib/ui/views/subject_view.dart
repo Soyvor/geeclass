@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geeclass/data/class_data.dart';
 import 'package:geeclass/data/model/subject.dart';
+import 'package:geeclass/data/model/subject_assignment.dart';
+import 'package:geeclass/data/model/subject_stream.dart';
 import 'package:geeclass/ui/theme/app_color.dart';
 import 'package:geeclass/ui/widgets/app_icon_buttton.dart';
 import 'package:geeclass/ui/widgets/assignment_highlight.dart';
+import 'package:geeclass/ui/widgets/assignment_item.dart';
 import 'package:geeclass/ui/widgets/stream_item.dart';
+import 'package:geeclass/ui/widgets/student_item.dart';
 import 'package:geeclass/ui/widgets/subject_post.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class SubjectView extends StatefulWidget {
   final Subject subject;
@@ -18,31 +23,25 @@ class SubjectView extends StatefulWidget {
 }
 
 class _SubjectViewState extends State<SubjectView> {
-  int _activeIndex = 1;
+  int _activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final pageController = PageController();
     final subjectStreams =
         streams.where((item) => item.subjectId == widget.subject.id).toList();
     final List<Map<String, dynamic>> menus = [
-      {
-        'index': 1,
-        'icon': "assets/icons/stream.svg",
-        'activeIcon': "assets/icons/stream-fill.svg",
-        'title': "Stream"
-      },
-      {
-        'index': 2,
-        'icon': "assets/icons/assignment.svg",
-        'activeIcon': "assets/icons/assignment-fill.svg",
-        'title': "Assignment"
-      },
-      {
-        'index': 3,
-        'icon': "assets/icons/classmates.svg",
-        'activeIcon': "assets/icons/classmates-fill.svg",
-        'title': "Classmates"
-      },
+      {'index': 1, 'icon': Icons.timer, 'title': "Stream"},
+      {'index': 2, 'icon': Icons.assignment, 'title': "Assignment"},
+      {'index': 3, 'icon': Icons.group, 'title': "Classmates"},
+    ];
+    final List<Widget> bodies = [
+      StreamBody(streams: subjectStreams),
+      AssignmentBody(
+          assignments: assignments
+              .where((item) => item.subjectId == widget.subject.id)
+              .toList()),
+      const ClassmateBody()
     ];
 
     return SafeArea(
@@ -138,74 +137,41 @@ class _SubjectViewState extends State<SubjectView> {
               ),
               const SizedBox(height: 32),
               // Menu
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: menus
+              GNav(
+                selectedIndex: _activeIndex,
+                curve: Curves.easeInOutQuint,
+                duration: const Duration(milliseconds: 300),
+                haptic: true,
+                gap: 8,
+                tabMargin: const EdgeInsets.symmetric(horizontal: 8),
+                color: AppColor.grey,
+                activeColor: Theme.of(context).primaryColor,
+                tabBackgroundColor:
+                    Theme.of(context).primaryColor.withOpacity(0.25),
+                onTabChange: (index) {
+                  setState(() {
+                    _activeIndex = index;
+
+                    pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOutQuint,
+                    );
+                  });
+                },
+                tabs: menus
                     .map(
-                      (item) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(16),
-                          splashColor: (_activeIndex == item['index']
-                                  ? Theme.of(context).primaryColor
-                                  : AppColor.white)
-                              .withOpacity(0.15),
-                          highlightColor: (_activeIndex == item['index']
-                                  ? Theme.of(context).primaryColor
-                                  : AppColor.white)
-                              .withOpacity(0.3),
-                          onTap: () {
-                            setState(() {
-                              _activeIndex = item['index'];
-                            });
-                          },
-                          child: AnimatedContainer(
-                            curve: Curves.easeInOut,
-                            duration: const Duration(milliseconds: 450),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _activeIndex == item['index']
-                                  ? Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.15)
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  _activeIndex == item['index']
-                                      ? item['activeIcon']
-                                      : item['icon'],
-                                  color: _activeIndex == item['index']
-                                      ? Theme.of(context).primaryColor
-                                      : AppColor.white,
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                _activeIndex == item['index']
-                                    ? Row(
-                                        children: [
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            item['title'],
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : const SizedBox.shrink(),
-                              ],
-                            ),
-                          ),
+                      (menu) => GButton(
+                        gap: 8,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        icon: menu['icon'],
+                        text: menu['title'],
+                        textStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     )
@@ -213,23 +179,102 @@ class _SubjectViewState extends State<SubjectView> {
               ),
               const SizedBox(height: 16),
               // Post
-              const SubjectPost(),
-              const SizedBox(height: 16),
               Expanded(
-                child: ListView.builder(
+                child: PageView.builder(
+                  controller: pageController,
                   physics: const BouncingScrollPhysics(),
-                  itemCount: subjectStreams.length,
-                  itemBuilder: (ctx, index) {
-                    final stream = subjectStreams[index];
-                    // Stream item
-                    return StreamItem(stream: stream);
+                  onPageChanged: (index) {
+                    setState(() {
+                      _activeIndex = index;
+                    });
                   },
+                  itemCount: bodies.length,
+                  itemBuilder: (ctx, index) => bodies[index],
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class StreamBody extends StatelessWidget {
+  final List<SubjectStream> streams;
+
+  const StreamBody({Key? key, required this.streams}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SubjectPost(),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: streams.length,
+            itemBuilder: (ctx, index) {
+              final stream = streams[index];
+              // Stream item
+              return StreamItem(stream: stream);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class AssignmentBody extends StatelessWidget {
+  final List<SubjectAssignment> assignments;
+
+  const AssignmentBody({Key? key, required this.assignments}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SubjectPost(),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: assignments.length,
+            itemBuilder: (ctx, index) {
+              final assignment = assignments[index];
+
+              return AssignmentItem(
+                assignment: assignment,
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ClassmateBody extends StatelessWidget {
+  const ClassmateBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: students.length,
+            itemBuilder: (ctx, index) {
+              final student = students[index];
+
+              return StudentItem(student: student);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
