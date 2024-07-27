@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart'; // Import this for Color
 
 class Subject {
   final int id;

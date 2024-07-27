@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geeclass/ui/theme/app_color.dart';
-import 'package:geeclass/ui/views/home_view.dart';
+import 'package:geeclass/ui/theme/app_color.dart'; // Ensure AppColor is defined
+import 'package:geeclass/ui/views/home_view.dart'; // Ensure HomeView is defined
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Geeclass',
       theme: ThemeData(
-        canvasColor: AppColor.black,
+        canvasColor: AppColor.black, // Ensure AppColor.black is defined
         fontFamily: "Inter",
       ),
-      home: const HomeView(),
+      home: const HomeView(), // Ensure HomeView is a valid Widget
     );
   }
 }
